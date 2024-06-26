@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  height: 100%;
+  font-family: "Jost", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@layer utilities {
+  .section {
+    @apply w-full md:py-20 py-10 md:px-8 px-4;
+  }
+  .flexCenter {
+    @apply flex items-center justify-center;
+  }
+  .flexBetween {
+    @apply flex items-center justify-between flex-row;
+  }
+}
