@@ -12,7 +12,6 @@ export const AppContext = createContext<ContextType | undefined>(undefined);
 
 const App = () => {
   const [userProfile, setUserProfile] = useState<UserProfile>({});
-
   const contextValue: ContextType = {
     userProfile,
     setUserProfile,
