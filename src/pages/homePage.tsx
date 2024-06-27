@@ -17,8 +17,8 @@ const HomePage = () => {
               alt="Redberry stamp "
               className="md:w-[299px] w-full opacity-[0.14] absolute top-[-50px] md:left-[250px] left-0"
             />
-            <Link to="/personalInfo">
-              <button className="text-[20px] bg-home_black text-white min-w-[350px] p-3 rounded-lg hover:bg-gray-600 cursor-pointer z-10 transition-all">
+            <Link to="/personalInfo_1">
+              <button className="relative text-[20px] bg-home_black text-white min-w-[350px] p-3 rounded-lg hover:bg-gray-600 cursor-pointer z-10 transition-all">
                 რეზიუმეს დამატება
               </button>
             </Link>

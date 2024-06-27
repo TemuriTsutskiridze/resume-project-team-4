@@ -1,5 +1,8 @@
 import { useContext } from "react";
 import { AppContext } from "../App";
+import Header from "../components/Header";
+import BackButton from "../components/BackButton";
+import SideResume from "../components/SideResume";
 
 const Education = () => {
   const { userProfile, setUserProfile } = useContext(AppContext)!;

@@ -21,3 +21,17 @@ export interface UserProfile {
   educationEndTime?: Date | string;
   educationDescription?: string;
 }
+
+export interface BackButtonProps {
+  navigate: string;
+}
+
+export interface HeaderProps {
+  header: string;
+  page: number;
+}
+
+export interface buttonProps {
+  navigate: string;
+  text: string;
+}
