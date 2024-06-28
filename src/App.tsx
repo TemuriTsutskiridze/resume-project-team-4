@@ -5,13 +5,28 @@ import PersonalInfo from "./pages/personalInfo";
 import Experience from "./pages/experience";
 import Education from "./pages/education";
 import Resume from "./pages/resume";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { ContextType, UserProfile } from "./types/types";
 
 export const AppContext = createContext<ContextType | undefined>(undefined);
 
 const App = () => {
   const [userProfile, setUserProfile] = useState<UserProfile>({});
+
+  // Load initial state from local storage if available
+  useEffect(() => {
+    const savedProfile = localStorage.getItem("userProfile");
+    if (savedProfile) {
+      setUserProfile(JSON.parse(savedProfile));
+      console.log(savedProfile);
+    }
+  }, [setUserProfile]);
+
+  // Save to local storage whenever userProfile changes
+  useEffect(() => {
+    localStorage.setItem("userProfile", JSON.stringify(userProfile));
+  }, [userProfile]);
+
   const contextValue: ContextType = {
     userProfile,
     setUserProfile,
