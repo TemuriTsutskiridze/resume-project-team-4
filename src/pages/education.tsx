@@ -2,17 +2,26 @@ import { useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Header from "../components/Header";
 import { useState } from "react";
+import erorImage from "/images/errorImage.svg";
+import { AppContext } from "../App";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
+const regex = /^[\u10D0-\u10FF]+$/;
 const schema = yup.object({
-  university: yup.string().required().min(2),
-  degree: yup.string(),
-  finish_date: yup.string(),
-  description: yup.string(),
+  university: yup
+    .string()
+    .min(2, "")
+    .matches(regex, "გთხოვთ შეიყვანოთ ქართული ასოები"),
+  degree: yup.string().required(),
+  finish_date: yup.string().required(),
+  description: yup
+    .string()
+    .min(2, "")
+    .matches(regex, "გთხოვთ შეიყვანოთ ქართული ასოები"),
 });
 const Education = () => {
+  const { university, degree } = useContext(AppContext);
   function foo() {
     setShow(!show);
   }
@@ -77,17 +86,25 @@ const Education = () => {
                 placeholder="სასწავლებელი `}
               />
               {errors.university ? (
-                <span className=" text-red-600 text-[12px] absolute top-[50px] right-[10px]">
-                  გთხოვთ შეიყვანოთ სასწავლებლის სახელი
-                </span>
+                <img
+                  className="absolute top-[45px] right-[-30px]"
+                  src={erorImage}
+                  alt=""
+                />
               ) : null}
+              {errors.university ? (
+                <p className=" absolute text-[12px] text-red-600 top-[10px] right-[10px] ">
+                  {errors.university.message}
+                </p>
+              ) : null}
+
               <span className={` text-[14px]  text-[#2E2E2E]  font-light`}>
                 მინიმუმ 2 სიმბოლო
               </span>
             </section>
             <section className="mb-[24px]">
               <div className="flex gap-[56px]">
-                <div className="flex flex-col">
+                <div className="flex flex-col relative">
                   <label
                     htmlFor="select"
                     className="text-[16px] font-medium text-[#000] mb-[8px]"
@@ -96,7 +113,11 @@ const Education = () => {
                   </label>
                   <select
                     id="select"
-                    className="px-[16px] py-[13px] text-[16px] font-normal rounded-[4px]  border-[1px] border-[solid] border-[#BCBCBC]"
+                    className={`px-[16px] py-[13px] text-[16px] font-normal rounded-[4px]   ${
+                      errors.degree
+                        ? "border-[1px] border-[solid] border-[red]"
+                        : "border-[1px] border-[solid] border-[#BCBCBC]"
+                    }`}
                     {...register("degree")}
                   >
                     <option
@@ -136,12 +157,18 @@ const Education = () => {
                     type="date"
                     name="finish_date"
                     id="date"
-                    className=" py-[10px] px-[16px] text-[16px] font-medium text-[#00000099] rounded-[4px] border-[1px] border-[solid] border-[#BCBCBC]"
+                    className={` py-[10px] px-[16px] text-[16px] font-medium text-[#00000099] rounded-[4px] border-[1px] ${
+                      errors.description
+                        ? "border-[1px] border-[solid] border-red-600"
+                        : !errors.description && show
+                        ? "border-[1px] border-[solid] border-green-600"
+                        : "border-[1px] border-[solid] border-[#BCBCBC]"
+                    }`}
                   />
                 </div>
               </div>
             </section>
-            <section className="mb-[200px]">
+            <section className="mb-[200px] relative">
               <label
                 htmlFor="about"
                 className="block text-[16px] font-medium text-[#000] mb-[8px]"
@@ -151,8 +178,26 @@ const Education = () => {
               <textarea
                 {...register("description")}
                 id="about"
-                className="pt-[13px] pl-[16px] min-h-[160px] rounded-[4px] border-[1px] border-[solid] border-[#BCBCBC] w-full mb-[45px]"
+                className={`pt-[13px] pl-[16px] min-h-[160px] rounded-[4px] outline-[none] ${
+                  errors.description
+                    ? "border-[1px] border-[solid] border-red-600"
+                    : !errors.description && show
+                    ? "border-[1px] border-[solid] border-green-600"
+                    : "border-[1px] border-[solid] border-[#BCBCBC]"
+                } w-full mb-[45px]`}
               ></textarea>
+              {errors.description ? (
+                <p className=" absolute text-[14px] text-red-600 top-[7px] right-[10px] ">
+                  {errors.description.message}
+                </p>
+              ) : null}
+              {errors.description ? (
+                <img
+                  className="absolute top-[92px] right-[-30px]"
+                  src={erorImage}
+                  alt=""
+                />
+              ) : null}
 
               <hr className="w-full bg-[#C1C1C1] h-[1.5px] mb-[45px]" />
               <button className="bg-[#62A1EB] rounded-[4px] py-[12px] px-[25px] text-[#fff] text-[16px] font-medium">
