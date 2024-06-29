@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { AppContext } from "../App";
 import Header from "../components/Header";
 import SideResume from "../components/SideResume";
@@ -21,6 +21,25 @@ const PersonalInfo = () => {
       ...prevProfile,
       [field]: value,
     }));
+  };
+
+  // image upload
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserProfile((prevProfile) => ({
+          ...prevProfile,
+          image: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -64,9 +83,22 @@ const PersonalInfo = () => {
             <span className="text-[16px] font-medium">
               პირადი ფოტოს ატვირთვა
             </span>
-            <button className="bg-button_blue px-5 py-1 rounded-[4px] text-[16px] text-white">
-              ატვირთვა
-            </button>
+            <div>
+              <button
+                type="button"
+                className="bg-button_blue px-5 py-1 rounded-[4px] text-[16px] text-white"
+                onClick={handleButtonClick}
+              >
+                ატვირთვა
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+            </div>
           </div>
 
           <div>
