@@ -22,9 +22,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Navigate to="/homePage" />} />
         <Route path="/homePage" element={<HomePage />} />
-        <Route path="/personalInfo" element={<PersonalInfo />} />
-        <Route path="/experience" element={<Experience />} />
-        <Route path="/education" element={<Education />} />
+        <Route path="/personalInfo_1" element={<PersonalInfo />} />
+        <Route path="/experience_2" element={<Experience />} />
+        <Route path="/education_3" element={<Education />} />
         <Route path="/resume" element={<Resume />} />
       </Routes>
     </AppContext.Provider>

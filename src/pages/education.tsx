@@ -4,6 +4,9 @@ import Header from "../components/Header";
 import { useState } from "react";
 import erorImage from "/images/errorImage.svg";
 import { AppContext } from "../App";
+import Header from "../components/Header";
+import BackButton from "../components/BackButton";
+import SideResume from "../components/SideResume";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
