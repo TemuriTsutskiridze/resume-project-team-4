@@ -11,22 +11,20 @@ import { ContextType, UserProfile } from "./types/types";
 export const AppContext = createContext<ContextType | undefined>(undefined);
 
 const App = () => {
-  const [userProfile, setUserProfile] = useState<UserProfile>({});
-
-  // Load initial state from local storage if available
-  useEffect(() => {
+  const [userProfile, setUserProfile] = useState<UserProfile>(() => {
     const savedProfile = localStorage.getItem("userProfile");
     if (savedProfile) {
-      setUserProfile(JSON.parse(savedProfile));
-      console.log(savedProfile);
+      const parsedObj = JSON.parse(savedProfile);
+      return parsedObj;
     }
-  }, [setUserProfile]);
+    return {};
+  });
 
   // Save to local storage whenever userProfile changes
   useEffect(() => {
     localStorage.setItem("userProfile", JSON.stringify(userProfile));
   }, [userProfile]);
-
+  // localStorage.clear();
   const contextValue: ContextType = {
     userProfile,
     setUserProfile,

@@ -13,12 +13,12 @@ export interface UserProfile {
   mobileNumber?: number | string;
   position?: string;
   employer?: string;
-  experienceStartTime?: Date | string;
-  experienceEndTime?: Date | string;
+  experienceStartTime?: string;
+  experienceEndTime?: string;
   experienceDescription?: string;
   university?: string;
   degree?: string;
-  educationEndTime?: Date | string;
+  educationEndTime?: string;
   educationDescription?: string;
 }
 

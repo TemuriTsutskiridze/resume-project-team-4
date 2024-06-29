@@ -3,18 +3,34 @@ import { AppContext } from "../App";
 
 const SideResume = () => {
   const { userProfile } = useContext(AppContext)!;
-  const { firstName, lastName, email, mobileNumber, aboutMe } = userProfile;
+  const {
+    firstName,
+    lastName,
+    email,
+    image,
+    mobileNumber,
+    aboutMe,
+    position,
+    employer,
+    experienceStartTime,
+    experienceEndTime,
+    experienceDescription,
+    university,
+    degree,
+    educationEndTime,
+    educationDescription,
+  } = userProfile;
 
   return (
-    <div className="flex flex-col flex-1 h-full gap-6 py-10 px-9 relative bg-white">
+    <div className="flex flex-col flex-1 h-full gap-6 py-10 md:px-16 px-8 relative bg-white">
       <div className="max-h-[90%] overflow-y-auto h-full ">
         <div className="flex justify-between items-start gap-6 font-normal">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <h1 className="text-[34px] font-bold text-resume_orange">
               {firstName} {lastName}
             </h1>
             <div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-[2/3] items-center gap-4">
                 <img
                   className="w-[20px] h-[20px]"
                   src="./images/email.png"
@@ -22,7 +38,7 @@ const SideResume = () => {
                 />
                 <span className="text-[18px] text-resume_black">{email}</span>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-[1/3] items-center gap-4">
                 <img
                   className="w-[20px] h-[20px]"
                   src="./images/phone.png"
@@ -43,7 +59,7 @@ const SideResume = () => {
           </div>
           <img
             className="max-w-[246px] max-h-[246px] w-[50%]"
-            src="./images/profile.png"
+            src={image}
             alt="profile"
           />
         </div>
@@ -54,19 +70,14 @@ const SideResume = () => {
           </h1>
           <div>
             <div className="font-medium mb-1 flex gap-4">
-              <h4>React Native Developer,</h4>
-              <span>Microsoft</span>
+              <h4>{position}</h4>
+              <span>{employer}</span>
             </div>
             <span className="text-[#909090] italic">
-              2020-09-23 - 2020-09-23
+              {experienceStartTime} - {experienceEndTime}
             </span>
           </div>
-          <p>
-            Experienced Javascript Native Developer with 5 years in the
-            industry. proficient withreact. Used problem-solving aptitude to
-            encahge application performance by 14%.created data visualisation
-            tools and integrated designs.
-          </p>
+          <p>{experienceDescription}</p>
         </div>
         <div className="w-full h-[1px] bg-line_bg_black my-4"></div>
         <div className="flex flex-col gap-2 text-[16px]">
@@ -75,17 +86,12 @@ const SideResume = () => {
           </h1>
           <div>
             <div className="font-medium mb-1 flex gap-4">
-              <h4>წმ. ანდრიას საპატრიარქოს სასწავლებელი,</h4>
-              <span>სტუდენტი</span>
+              <h4>{university}</h4>
+              <span>{degree}</span>
             </div>
-            <span className="text-[#909090] italic">2020-09-23</span>
+            <span className="text-[#909090] italic">{educationEndTime} - </span>
           </div>
-          <p>
-            ვსწავლობდი გულმოდგინეთ. მყავდა ფრიადები. რაც შემეძლო — ვქენი.
-            კომპიუტერები მიყვარდა. ვიჯექი ჩემთვის, ვაკაკუნებდი ამ კლავიშებზე.
-            მეუნებოდნენ — დაჯექი, წაიკითხე რამე, რას აკაკუნებ, დრო მოვა და
-            ჩაგიკაკუნებსო. აჰა, მოვიდა დრო და ვერა ვარ დეველოპერი?
-          </p>
+          <p>{educationDescription}</p>
         </div>
       </div>
       <img
