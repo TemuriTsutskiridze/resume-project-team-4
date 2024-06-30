@@ -33,3 +33,33 @@
     @apply border border-[#EF5050];
   }
 }
+
+.moreExperienceBtn {
+  width: 289px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.54px;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(98, 161, 235, 1);
+  padding: 14px 21px;
+  border-radius: 4px;
+  margin-top: 45px;
+  margin-bottom: 115px;
+}
+.prevNextBtnWrapper {
+  display: flex;
+  justify-content: space-between;
+  & > button {
+    background-color: rgba(107, 64, 227, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: 14px 35px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19.54px;
+    letter-spacing: 0.08em;
+    text-align: center;
+    border-radius: 4px;
+  }
+}
