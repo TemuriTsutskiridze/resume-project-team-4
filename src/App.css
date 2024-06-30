@@ -14,7 +14,7 @@
 
 @layer utilities {
   .section {
-    @apply w-full h-svh flex relative;
+    @apply w-full min-h-svh flex relative;
   }
   .sectionPadding {
     @apply w-full md:py-12 py-8 md:px-36 px-12;
@@ -24,5 +24,12 @@
   }
   .flexBetween {
     @apply flex items-center justify-between flex-row;
+  }
+
+  .inputCorrect {
+    @apply border border-[#98E37E];
+  }
+  .inputError {
+    @apply border border-[#EF5050];
   }
 }
