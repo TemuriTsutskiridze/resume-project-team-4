@@ -2,13 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "myFont";
-  src: url(fonts/HelveticaNeue.ttc);
-}
 #root {
   height: 100%;
-  font-family: "myFont";
 }
 
 * {
@@ -19,16 +14,23 @@
 
 @layer utilities {
   .section {
-    @apply w-full h-svh flex relative;
+    @apply w-full min-h-svh flex relative;
   }
   .sectionPadding {
-    @apply w-full py-8 md:px-24 px-12;
+    @apply w-full md:py-12 py-8 md:px-36 px-12;
   }
   .flexCenter {
     @apply flex items-center justify-center;
   }
   .flexBetween {
     @apply flex items-center justify-between flex-row;
+  }
+
+  .inputCorrect {
+    @apply border border-[#98E37E];
+  }
+  .inputError {
+    @apply border border-[#EF5050];
   }
 }
 

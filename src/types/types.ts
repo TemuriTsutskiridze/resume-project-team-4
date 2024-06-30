@@ -4,22 +4,30 @@ export type ContextType = {
   setUserProfile: Dispatch<SetStateAction<UserProfile>>;
 };
 
-export interface UserProfile {
-  firstName?: string;
-  lastName?: string;
-  image?: string;
-  aboutMe?: string;
-  email?: string;
-  mobileNumber?: number | string;
+export interface Experience {
   position?: string;
   employer?: string;
-  experienceStartTime?: Date | string;
-  experienceEndTime?: Date | string;
-  experienceDescription?: string;
+  date_started?: string;
+  date_finished?: string;
+  description?: string;
+}
+
+export interface Education {
   university?: string;
   degree?: string;
-  educationEndTime?: Date | string;
-  educationDescription?: string;
+  finish_date?: string;
+  description?: string;
+}
+
+export interface UserProfile {
+  name?: string;
+  last_name?: string;
+  image?: string;
+  about_me?: string;
+  email?: string;
+  phone_num?: string;
+  experience?: Experience;
+  education?: Education;
 }
 
 export interface BackButtonProps {
@@ -32,6 +40,12 @@ export interface HeaderProps {
 }
 
 export interface buttonProps {
-  navigate: string;
+  action?: VoidFunction;
+  navigate?: string;
   text: string;
 }
+
+export type handleChangeProps = (
+  field: "name" | "last_name" | "email" | "phone_num" | "about_me",
+  value: string | number
+) => void;
