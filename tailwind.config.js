@@ -20,6 +20,8 @@ export default {
         background: "url('/images/background.png')",
         "gradient-overlay":
           "linear-gradient(rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.52))",
+        "input-background": "url('/images/correct.svg')",
+        errorImage: "url(`images/errorImage.svg`)",
       },
     },
   },

@@ -1,15 +1,43 @@
 import { useContext } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import Header from "../components/Header";
+import { useState } from "react";
+import erorImage from "/images/errorImage.svg";
 import { AppContext } from "../App";
 import Header from "../components/Header";
 import BackButton from "../components/BackButton";
 import SideResume from "../components/SideResume";
 
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+const regex = /^[\u10D0-\u10FF]+$/;
+const schema = yup.object({
+  university: yup
+    .string()
+    .min(2, "")
+    .matches(regex, "გთხოვთ შეიყვანოთ ქართული ასოები"),
+  degree: yup.string().required(),
+  finish_date: yup.string().required(),
+  description: yup
+    .string()
+    .min(2, "")
+    .matches(regex, "გთხოვთ შეიყვანოთ ქართული ასოები"),
+});
 const Education = () => {
-  const { userProfile, setUserProfile } = useContext(AppContext)!;
+  const { university, degree } = useContext(AppContext);
+  function foo() {
+    setShow(!show);
+  }
+  const [show, setShow] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
-  // const firstName = userProfile.firstName || "";
-  // რაც გჭირდებათ ის ველიუ წამოიღეთ App.tsx დან
-
+  const onSubmit = (data) => console.log(data);
+  console.log(errors);
   return (
     <div className=" main w-[57%] inline-block bg-[#F9F9F9] pt-[47px] pr-[150px] pb-[65px] pl-[48px] min-h-screen ">
       <div className=" divided flex gap-[61px]">
@@ -35,27 +63,51 @@ const Education = () => {
           </div>
           <hr className="bg-[#1A1A1A] w-full h-[1.5px] mb-[68px]" />
 
-          <form>
-            <section className="mb-[23px]">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <section className="mb-[23px] relative">
               <label
-                className="mb-[8px] text-[#000] text-[16px] font-medium block"
+                className={`mb-[8px]  ${
+                  errors.university ? "text-red-600" : "text-[#2E2E2E]"
+                } text-[16px] font-medium block`}
                 htmlFor="სასწავლებელი"
               >
                 სასწავლებელი
               </label>
               <input
+                {...register("university")}
                 id="სასწავლებელი"
                 type="text"
-                className="text-[16px] font-normal text-[#00000099] pt-[13px] pb-[12px] pl-[16px] w-full  border-[1px] border-[solid] border-[#BCBCBC] rounded-[4px] mb-[8px]  placeholder-[#00000099]  "
-                placeholder="სასწავლებელი"
+                className={`text-[16px] font-normal text-[#00000099] pt-[13px] pb-[12px] pl-[16px] w-full   ${
+                  !errors.university && show ? "bg-input-background" : null
+                } bg-no-repeat bg-[right_14px_top_50%] ${
+                  errors.university
+                    ? "border-[1px] border-[solid] border-red-600"
+                    : !errors.university && show
+                    ? "border-[1px] border-[solid] border-green-600"
+                    : "border-[1px] border-[solid] border-[#BCBCBC]"
+                } rounded-[4px] mb-[8px]  placeholder-[#00000099]  outline-none "
+                placeholder="სასწავლებელი `}
               />
-              <span className=" text-[14px] text-[#2E2E2E] font-light">
+              {errors.university ? (
+                <img
+                  className="absolute top-[45px] right-[-30px]"
+                  src={erorImage}
+                  alt=""
+                />
+              ) : null}
+              {errors.university ? (
+                <p className=" absolute text-[12px] text-red-600 top-[10px] right-[10px] ">
+                  {errors.university.message}
+                </p>
+              ) : null}
+
+              <span className={` text-[14px]  text-[#2E2E2E]  font-light`}>
                 მინიმუმ 2 სიმბოლო
               </span>
             </section>
             <section className="mb-[24px]">
               <div className="flex gap-[56px]">
-                <div className="flex flex-col">
+                <div className="flex flex-col relative">
                   <label
                     htmlFor="select"
                     className="text-[16px] font-medium text-[#000] mb-[8px]"
@@ -63,9 +115,13 @@ const Education = () => {
                     ხარისხი
                   </label>
                   <select
-                    name=""
                     id="select"
-                    className="px-[16px] py-[13px] text-[16px] font-normal rounded-[4px]  border-[1px] border-[solid] border-[#BCBCBC]"
+                    className={`px-[16px] py-[13px] text-[16px] font-normal rounded-[4px]   ${
+                      errors.degree
+                        ? "border-[1px] border-[solid] border-[red]"
+                        : "border-[1px] border-[solid] border-[#BCBCBC]"
+                    }`}
+                    {...register("degree")}
                   >
                     <option
                       value=""
@@ -73,15 +129,23 @@ const Education = () => {
                     >
                       აირჩიეთ ხარისხი
                     </option>
-                    <option value="">საშუალო სკოლის დიპლომი</option>
-                    <option value=""> ზოგადსაგანმანათლებლო დიპლომი</option>
-                    <option value="">ბაკალავრი</option>
-                    <option value="">მაგისტრი</option>
-                    <option value="">დოქტორი</option>
-                    <option value="">ასოცირებული ხარისხი</option>
-                    <option value="">სტუდენტი</option>
-                    <option value="">კოლეჯი(ხარისხის გარეშე)</option>
-                    <option value="">სხვა</option>
+                    <option value="საშუალო სკოლის დიპლომი">
+                      საშუალო სკოლის დიპლომი
+                    </option>
+                    <option value="ზოგადსაგანმანათლებლო დიპლომი">
+                      ზოგადსაგანმანათლებლო დიპლომი
+                    </option>
+                    <option value="ბაკალავრი">ბაკალავრი</option>
+                    <option value="მაგისტრი">მაგისტრი</option>
+                    <option value="დოქტორი">დოქტორი</option>
+                    <option value="ასოცირებული ხარისხი">
+                      ასოცირებული ხარისხი
+                    </option>
+                    <option value="სტუდენტი">სტუდენტი</option>
+                    <option value="კოლეჯი(ხარისხის გარეშე)">
+                      კოლეჯი(ხარისხის გარეშე)
+                    </option>
+                    <option value="სხვა">სხვა</option>
                   </select>
                 </div>
                 <div className="flex flex-col w-full">
@@ -92,26 +156,52 @@ const Education = () => {
                     დამთავრების რიცხვი
                   </label>
                   <input
+                    {...register("finish_date")}
                     type="date"
-                    name=""
+                    name="finish_date"
                     id="date"
-                    className=" py-[13px] px-[16px] text-[16px] font-medium text-[#00000099] rounded-[4px] border-[1px] border-[solid] border-[#BCBCBC]"
+                    className={` py-[10px] px-[16px] text-[16px] font-medium text-[#00000099] rounded-[4px] border-[1px] ${
+                      errors.description
+                        ? "border-[1px] border-[solid] border-red-600"
+                        : !errors.description && show
+                        ? "border-[1px] border-[solid] border-green-600"
+                        : "border-[1px] border-[solid] border-[#BCBCBC]"
+                    }`}
                   />
                 </div>
               </div>
             </section>
-            <section className="mb-[200px]">
+            <section className="mb-[200px] relative">
               <label
                 htmlFor="about"
                 className="block text-[16px] font-medium text-[#000] mb-[8px]"
               >
                 აღწერა
               </label>
-              <input
-                type="text"
+              <textarea
+                {...register("description")}
                 id="about"
-                className="pt-[13px] pl-[16px] min-h-[160px] rounded-[4px] border-[1px] border-[solid] border-[#BCBCBC] w-full mb-[45px]"
-              />
+                className={`pt-[13px] pl-[16px] min-h-[160px] rounded-[4px] outline-[none] ${
+                  errors.description
+                    ? "border-[1px] border-[solid] border-red-600"
+                    : !errors.description && show
+                    ? "border-[1px] border-[solid] border-green-600"
+                    : "border-[1px] border-[solid] border-[#BCBCBC]"
+                } w-full mb-[45px]`}
+              ></textarea>
+              {errors.description ? (
+                <p className=" absolute text-[14px] text-red-600 top-[7px] right-[10px] ">
+                  {errors.description.message}
+                </p>
+              ) : null}
+              {errors.description ? (
+                <img
+                  className="absolute top-[92px] right-[-30px]"
+                  src={erorImage}
+                  alt=""
+                />
+              ) : null}
+
               <hr className="w-full bg-[#C1C1C1] h-[1.5px] mb-[45px]" />
               <button className="bg-[#62A1EB] rounded-[4px] py-[12px] px-[25px] text-[#fff] text-[16px] font-medium">
                 სხვა სასწავლებლის დამატება
@@ -121,7 +211,10 @@ const Education = () => {
               <button className=" back bg-[#6B40E3] rounded-[4px] py-[12px] px-[40px] text-[16px] font-medium text-[#fff]">
                 უკან
               </button>
-              <button className="finish bg-[#6B40E3] rounded-[4px] py-[12px] px-[30px] text-[16px] font-medium text-[#fff]">
+              <button
+                className="finish bg-[#6B40E3] rounded-[4px] py-[12px] px-[30px] text-[16px] font-medium text-[#fff]"
+                onClick={foo}
+              >
                 დასრულება
               </button>
             </footer>
