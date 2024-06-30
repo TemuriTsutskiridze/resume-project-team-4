@@ -21,6 +21,8 @@ export default {
         background: "url('/images/background.png')",
         "gradient-overlay":
           "linear-gradient(rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.52))",
+        "input-background": "url('/images/correct.svg')",
+        errorImage: "url(`images/errorImage.svg`)",
       },
       boxShadow: {
         custom: "0px 4px 28px 0px #00000040",
