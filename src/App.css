@@ -51,15 +51,4 @@
 .prevNextBtnWrapper {
   display: flex;
   justify-content: space-between;
-  & > button {
-    background-color: rgba(107, 64, 227, 1);
-    color: rgba(255, 255, 255, 1);
-    padding: 14px 35px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 19.54px;
-    letter-spacing: 0.08em;
-    text-align: center;
-    border-radius: 4px;
-  }
 }

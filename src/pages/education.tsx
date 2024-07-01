@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import Header from "../components/Header";
 import { useState } from "react";
 import erorImage from "/images/errorImage.svg";
 import { AppContext } from "../App";
