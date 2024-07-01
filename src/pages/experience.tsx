@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../App";
 import Header from "../components/Header";
 import SideResume from "../components/SideResume";
 import BackButton from "../components/BackButton";
+import Button from "../components/Button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled, { css } from "styled-components";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
 interface IExperience {
   position: string;
@@ -44,6 +47,8 @@ const schema = yup.object().shape({
 });
 
 const Experience = () => {
+  // const { userProfile, setUserProfile } = useContext(AppContext)!;
+
   const [experiences, setExperiences] = useState<IExperience[]>([
     {
       position: "",
@@ -61,6 +66,8 @@ const Experience = () => {
     formState: { errors, isSubmitted },
     setValue,
   } = useForm<IExperience>({ resolver: yupResolver(schema) });
+
+  // const watchedExperiences = watch("experiences");
 
   const handleFormSubmit: SubmitHandler<IExperience> = (data) => {
     setExperiences([...experiences, data]);
@@ -80,7 +87,14 @@ const Experience = () => {
     ]);
   };
   const validateForm = () => {
-    const noErrors = !errors?.experiences || !errors.experiences.length;
+    const noErrors = experiences.every(
+      (exp, index) =>
+        !errors.experiences?.[index]?.position &&
+        !errors.experiences?.[index]?.employer &&
+        !errors.experiences?.[index]?.date_started &&
+        !errors.experiences?.[index]?.date_finished &&
+        !errors.experiences?.[index]?.description
+    );
 
     const allFieldsFilled = experiences.every(
       (exp) =>
@@ -94,6 +108,15 @@ const Experience = () => {
     return noErrors && allFieldsFilled;
   };
 
+  const history = useNavigate();
+  const onSubmitNext = handleSubmit(() => {
+    history("/education_3");
+  });
+
+  const onSubmitPrev = handleSubmit(() => {
+    history("/personalInfo_1");
+  });
+
   const handleChange = (
     index: number,
     fieldName: keyof IExperience,
@@ -104,10 +127,16 @@ const Experience = () => {
         idx === index ? { ...exp, [fieldName]: newValue } : exp
       )
     );
-    setValue(`experiences[${index}].${fieldName}`, newValue, {
-      shouldValidate: true,
-    });
+    setValue(
+      `experiences[${index}].${fieldName}` as keyof IExperience,
+      newValue,
+      {
+        shouldValidate: true,
+      }
+    );
   };
+
+  console.log(experiences);
   return (
     <div className="section">
       <BackButton navigate="/personalInfo_1" />
@@ -117,7 +146,20 @@ const Experience = () => {
           {experiences.map((experience, index) => (
             <InputContent
               key={index}
-              haserror={errors?.experiences?.[index]?.toString()}
+              haserror={
+                (errors?.experiences?.[index]?.position &&
+                  errors.experiences[index].position.message) ||
+                (errors?.experiences?.[index]?.employer &&
+                  errors.experiences[index].employer.message) ||
+                (errors?.experiences?.[index]?.date_started &&
+                  errors.experiences[index].date_started.message) ||
+                (errors?.experiences?.[index]?.date_finished &&
+                  errors.experiences[index].date_finished.message) ||
+                (errors?.experiences?.[index]?.description &&
+                  errors.experiences[index].description.message)
+                  ? "true"
+                  : "false"
+              }
             >
               <div className="inputWrapper">
                 <label htmlFor={`position${index}`}>
@@ -352,10 +394,8 @@ const Experience = () => {
             მეტი გამოცდილების დამატება
           </button>
           <div className="prevNextBtnWrapper">
-            <button className="prev">უკან</button>
-            <button type="submit" className="next">
-              შემდეგი
-            </button>
+            <Button text="უკან" action={onSubmitPrev} />
+            <Button text="შემდეგი" action={onSubmitNext} />
           </div>
         </form>
       </div>
