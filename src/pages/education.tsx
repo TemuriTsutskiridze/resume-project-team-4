@@ -1,8 +1,6 @@
-import { useContext } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
 import erorImage from "/images/errorImage.svg";
-import { AppContext } from "../App";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -20,7 +18,6 @@ const schema = yup.object({
     .matches(regex, "გთხოვთ შეიყვანოთ ქართული ასოები"),
 });
 const Education = () => {
-  const { university, degree } = useContext(AppContext);
   function foo() {
     setShow(!show);
   }
@@ -28,11 +25,10 @@ const Education = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data: unknown) => console.log(data);
   console.log(errors);
   return (
     <div className=" main w-[57%] inline-block bg-[#F9F9F9] pt-[47px] pr-[150px] pb-[65px] pl-[48px] min-h-screen ">
